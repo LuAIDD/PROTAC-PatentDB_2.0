@@ -1,79 +1,23 @@
-# PROTAC-PatentDB 2.0 — Code
+# BRD9 classification QSAR case study
 
-Custom code accompanying the manuscript *"PROTAC-PatentDB 2.0: A PROTAC Patent
-Compound Dataset with Pharmacological and Substructure Annotations"*.
+This minimal package reproduces the final BRD9 classification QSAR analysis used in the manuscript.
 
-This repository contains exactly the two parts of the manuscript that involve
-custom code:
+## Contents
 
-1. **`e3_ligase_assignment/`** — the automated stages (I and III) of the
-   four-stage E3 ligase assignment workflow (Methods – "Assignment of E3 ligase
-   identity"; stages II and IV were performed manually by the curators).
-2. **`irak4_qsar/`** — the IRAK4 QSAR case study (Technical Validation –
-   Case study 1).
+- `code/`: the reproduction script and tested software versions.
+- `data/`: 424 source-curated PROTAC records from four patent families.
+- `results/`: frozen metrics, predictions and the final ROC panel.
 
-Everything else reported in the manuscript is either produced by an external
-tool (Derwent Innovation, SciFinder, PROTAC-Splitter, ADMETlab 3.0,
-Open3DAlign, PROTAC-TS, TabPFN) or performed manually (patent retrieval and
-screening, manual review and verification), and therefore has no custom code
-to release. The deposited dataset itself is available from Figshare (see the
-manuscript, Data availability).
+## Endpoint and model
 
-## Repository structure
+All records use comparable 6 h SYO-1 NanoLuc BRD9 reporter assays. Patent-reported activity bins were classified as `<10 nM` (positive) or `>=10 nM` (negative). The model is a fixed random forest using 2,048-dimensional radius-3 Morgan count fingerprints with chirality. Exact Bemis–Murcko scaffold groups are kept separate during validation.
 
-```
-├── e3_ligase_assignment/
-│   ├── infer_e3_from_ligand.py   # Stage I: canonical SMILES, Bemis–Murcko scaffold
-│   │                             #   and Morgan fingerprint Tanimoto matching against
-│   │                             #   the curated reference library, fused with patent
-│   │                             #   text keywords; writes annotated sheet + audit trail
-│   ├── infer_e3_with_kimi.py     # Stage III: re-resolves low-confidence rows with an
-│   │                             #   LLM (KIMI_API_KEY required) plus patent/scaffold
-│   │                             #   consistency backfill
-│   └── data/                     # small sample inputs (E3 reference library,
-│                                 #   patent bibliographic text, PROTAC input sheet)
-└── irak4_qsar/
-    ├── parse_lib.py              # programmatic conversion of heterogeneous DC50
-    │                             #   representations (ranges, censored bounds,
-    │                             #   scientific notation, dual read-outs) to µM
-    ├── 01_series_selection.py    # congeneric-series selection for 3D-QSAR
-    ├── 02_3d_qsar_modeling.py    # CoMFA/CoMSIA modelling with LOO and 5-fold CV
-    ├── 03_final_experiments.py   # final field-based experiments reported in the paper
-    ├── 04_comfa_contours.py      # CoMFA steric contour maps (Figure 3)
-    ├── 05_ml_pharma_figures.py   # descriptor-based Extra-Trees model and SAR
-    │                             #   panels (Figure 4)
-    └── data/
-        └── irak4_protac_sample.csv   # 160-row subset of the IRAK4 table, for
-                                      #   syntax checking only
-```
-
-## Requirements
-
-Python 3.10+; RDKit, pandas, numpy, scikit-learn, matplotlib, openpyxl,
-requests (Stage III only).
-
-## Usage
-
-Stage I can be exercised end-to-end on the bundled sample data without any
-external service (copy `data/prota_input_sample.xlsx` into a working directory
-as `PROTAC-PatentDB 2.0-1.xlsx` first):
+## Reproduction
 
 ```bash
-python e3_ligase_assignment/infer_e3_from_ligand.py \
-    --e3-dir        <working_dir>/ \
-    --reference-csv e3_ligase_assignment/data/e3_reference_sample.csv \
-    --patent-info   e3_ligase_assignment/data/patent_info_sample.xlsx
+python code/run_brd9_qsar.py
 ```
 
-Stage III expects the Stage I audit output and reads the Moonshot API key from
-the `KIMI_API_KEY` environment variable.
+The command writes metrics, predictions, the fitted model and the ROC plot to `output/`. Expected headline results are AUC 0.850 for five-fold scaffold cross-validation on the 338-compound development set and AUC 0.851, MCC 0.529 and balanced accuracy 0.743 for the 86-compound scaffold-separated test set.
 
-The QSAR scripts expect `IRAK4_PROTAC_cleaned_v2.xlsx`, the cleaned IRAK4
-activity table derived from the Figshare deposit (DC50 values parsed with
-`parse_lib.py`); `data/irak4_protac_sample.csv` is a small subset for
-verifying that the scripts run, not for reproducing the manuscript numbers.
-
-## License
-
-MIT (see `LICENSE`). If you use this code, please cite the companion
-manuscript in *Scientific Data* (2026).
+This is a retrospective case study within the represented chemical and assay space; it is not evidence of transfer to unseen patent families or laboratories.

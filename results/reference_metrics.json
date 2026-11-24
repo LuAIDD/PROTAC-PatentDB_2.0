@@ -1,0 +1,112 @@
+{
+  "development_scaffold_CV": {
+    "n": 338,
+    "positive": 229,
+    "AUROC": 0.8501261968671128,
+    "MCC": 0.55886592941188,
+    "balanced_accuracy": 0.7787548575778214,
+    "AUPRC": 0.9146254605230999,
+    "confusion_matrix_TN_FP_FN_TP": [
+      76,
+      33,
+      32,
+      197
+    ]
+  },
+  "heldout_scaffold_test": {
+    "n": 86,
+    "positive": 58,
+    "AUROC": 0.8509852216748769,
+    "MCC": 0.529257327334222,
+    "balanced_accuracy": 0.7426108374384237,
+    "AUPRC": 0.9010306770232245,
+    "confusion_matrix_TN_FP_FN_TP": [
+      16,
+      12,
+      5,
+      53
+    ]
+  },
+  "development_fold_metrics": [
+    {
+      "fold": 0,
+      "n": 68,
+      "positive": 46,
+      "AUROC": 0.9061264822134387,
+      "MCC": 0.6902552300403684,
+      "balanced_accuracy": 0.8310276679841897,
+      "AUPRC": 0.9485909949987611,
+      "confusion_matrix_TN_FP_FN_TP": [
+        16,
+        6,
+        3,
+        43
+      ]
+    },
+    {
+      "fold": 1,
+      "n": 67,
+      "positive": 45,
+      "AUROC": 0.7424242424242424,
+      "MCC": 0.3513643293914291,
+      "balanced_accuracy": 0.6853535353535354,
+      "AUPRC": 0.8640608578799005,
+      "confusion_matrix_TN_FP_FN_TP": [
+        15,
+        7,
+        14,
+        31
+      ]
+    },
+    {
+      "fold": 2,
+      "n": 69,
+      "positive": 47,
+      "AUROC": 0.8288201160541586,
+      "MCC": 0.628846274910581,
+      "balanced_accuracy": 0.8104448742746615,
+      "AUPRC": 0.8927747095504777,
+      "confusion_matrix_TN_FP_FN_TP": [
+        16,
+        6,
+        5,
+        42
+      ]
+    },
+    {
+      "fold": 3,
+      "n": 67,
+      "positive": 45,
+      "AUROC": 0.8949494949494949,
+      "MCC": 0.593939393939394,
+      "balanced_accuracy": 0.796969696969697,
+      "AUPRC": 0.9484246097218921,
+      "confusion_matrix_TN_FP_FN_TP": [
+        16,
+        6,
+        6,
+        39
+      ]
+    },
+    {
+      "fold": 4,
+      "n": 67,
+      "positive": 46,
+      "AUROC": 0.8902691511387163,
+      "MCC": 0.5672377072181242,
+      "balanced_accuracy": 0.7660455486542443,
+      "AUPRC": 0.9504065806784686,
+      "confusion_matrix_TN_FP_FN_TP": [
+        13,
+        8,
+        4,
+        42
+      ]
+    }
+  ],
+  "test_patent_counts": "{('WO2020160192A1', 0): 1, ('WO2020160192A1', 1): 10, ('WO2020160193A2', 0): 1, ('WO2020160196A1', 0): 7, ('WO2020160196A1', 1): 24, ('WO2020160198A1', 0): 19, ('WO2020160198A1', 1): 24}",
+  "scaffold_overlap": 0,
+  "full_molecule_overlap": 0,
+  "original_unseen_patent_gate_satisfied": false,
+  "scaffold_point_metric_gate_pass": false
+}
